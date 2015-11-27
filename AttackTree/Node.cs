@@ -71,14 +71,19 @@ namespace AttackTree
         {
             var regex = new Regex(@"(?<!->)[ \t]([a-zA-Z]+[ \t]*\[[^\]]+\])");
 
-            var nodes = from m in regex.Matches(dot).OfType<Match>()
-                        select m.Groups[1].Value;
+            var nodes = (from m in regex.Matches(dot).OfType<Match>()
+                        select m.Groups[1].Value).ToArray();
+            var graph = nodes.First(x => GetName(x) == "graph");
+            nodes = (from n in nodes
+                     let name = GetName(n)
+                     where name != "node" && name != "edge" && name != "graph"
+                     select n).ToArray();
 
-            var bounds = GetValues(nodes.First(), "bb", UnitsOfMeasure.Points).ToArray();
-            var levels = nodes.Skip(2).Select(x => GetTwo(x, "pos", UnitsOfMeasure.Points).Y).Distinct().OrderBy(x => x).ToList();
+            var bounds = GetValues(graph, "bb", UnitsOfMeasure.Points).ToArray();
+            var levels = nodes.Select(x => GetTwo(x, "pos", UnitsOfMeasure.Points).Y).Distinct().OrderBy(x => x).ToList();
             pagesize = new Vector2D(bounds[2], bounds[3] + (levels.Count - 1) * levelspacer);
 
-            var result = nodes.Skip(2).Select(x => new Node(x, levels)).ToArray();
+            var result = nodes.Select(x => new Node(x, levels)).ToArray();
             for (int i = 0; i < result.Length; i++)
             {
                 var y = result[i].center.Y;
