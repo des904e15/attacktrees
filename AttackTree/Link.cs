@@ -29,7 +29,7 @@ namespace AttackTree
 
         public static Link[] GetLinks(string dot, Node[] nodes)
         {
-            var regex = new Regex(@"(?<from>[a-zA-Z]+)[ \t]*->[ \t]*(?<to>[a-zA-Z]+)[ \t]*\[[^\]]+\]");
+            var regex = new Regex(@"(?<from>[a-zA-Z0-9]+)[ \t]*->[ \t]*(?<to>[a-zA-Z0-9]+)[ \t]*\[[^\]]+\]");
 
             var links = from m in regex.Matches(dot).OfType<Match>()
                         let f = m.Groups["from"].Value
