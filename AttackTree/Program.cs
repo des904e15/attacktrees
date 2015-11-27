@@ -67,14 +67,8 @@ namespace AttackTree
 
             using (var process = Process.Start(psi))
             {
-                var wait = process.WaitForExit(5000);
+                while (process.WaitForExit(10)) { }
                 generated = process.StandardOutput.ReadToEnd();
-                if (!wait)
-                {
-                    wait = process.WaitForExit(100);
-                    if (!wait)
-                        process.Kill();
-                }
             }
 
             return generated;
