@@ -21,7 +21,7 @@ namespace AttackTree
 
         private static string GetName(string node)
         {
-            return Regex.Match(node, "^[a-zA-Z0-9]+").Value;
+            return Regex.Match(node, "^[a-zA-Z0-9_]+").Value;
         }
         private static string GetValue(string node, string key)
         {
@@ -69,7 +69,7 @@ namespace AttackTree
 
         public static Node[] GetNodes(string dot, out Vector2D pagesize)
         {
-            var regex = new Regex(@"(?<!->)[ \t]([a-zA-Z0-9]+[ \t]*\[[^\]]+\])");
+            var regex = new Regex(@"(?<!->)[ \t]([a-zA-Z0-9_]+[ \t]*\[[^\]]+\])");
 
             var nodes = (from m in regex.Matches(dot).OfType<Match>()
                         select m.Groups[1].Value).ToArray();
