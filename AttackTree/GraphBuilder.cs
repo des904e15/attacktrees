@@ -73,7 +73,13 @@ namespace AttackTree
             var size = p3 - p1;
             var p2 = p3 - new Vector2D(Vector1D.Zero, size.Y / 2);
 
-            yield return new Line(new Vector2D(Vector1D.Zero, size.Y / 2)) { Offset = p1 };
+            if (link.From.NodeType == Node.NodeTypes.Unknown)
+            {
+                var p1_ = new Vector2D(link.From.Center.X, link.From.BoxRect.Bottom);
+                yield return new Line(new Vector2D(Vector1D.Zero, (p2 - p1_).Y)) { Offset = p1_ };
+            }
+            else
+                yield return new Line(new Vector2D(Vector1D.Zero, size.Y / 2)) { Offset = p1 };
             yield return new Line(new Vector2D(-size.X, Vector1D.Zero)) { Offset = p2 };
             yield return new Line(new Vector2D(Vector1D.Zero, size.Y / 2)) { Offset = p2 };
         }
@@ -136,7 +142,7 @@ namespace AttackTree
                 Offset = new Vector2D(rect.X, rect.Bottom - s),
                 Size = new Vector2D(2 * s, 2 * s)
             };
-            
+
             yield return new Arc()
             {
                 BorderColor = color,
