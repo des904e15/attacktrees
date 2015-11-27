@@ -6,7 +6,27 @@ namespace AttackTree
 {
     class Program : Command
     {
-        static string dotPath = @"C:\Users\Mikkel\Downloads\graphviz-2.38\release\bin\dot.exe";
+        private Configuration config;
+        private string dotPath
+        {
+            get
+            {
+                var c = config["dot.path"];
+                if (c == null)
+                {
+                    Validator<string> validator = new Validator<string>();
+                    validator.Add(x => x != null && x != string.Empty, "That's not a filepath!");
+                    validator.Add(x => File.Exists(x), "That file doesn't exist!");
+                    validator.Add(x => Path.GetExtension(x) == ".exe", "That's not an executable!");
+                    validator.Add(x => Path.GetFileName(x) == "dot.exe", "That's not the dot.exe executable!");
+
+                    c = ColorConsole.ReadLine<string>("The dot.exe path: ", validator: validator);
+
+                    config["dot.path"] = c;
+                }
+                return c;
+            }
+        }
 
         static string dott =
         #region input
@@ -92,6 +112,10 @@ namespace AttackTree
 
         public Program()
         {
+            var dir = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+            var configPath = Path.Combine(dir, "config");
+            this.config = new Configuration(configPath);
+
             file.Validator.Add(x => x.Length > 0, "A .dot file must be specified.");
             file.Validator.Add(x => x.Length == 1, "Only one .dot file can be specified.");
             file.Validator.AddForeach(FileExists);
@@ -106,7 +130,7 @@ namespace AttackTree
                 return Message.NoError;
         }
 
-        private static string GenerateDot(string path)
+        private string GenerateDot(string path)
         {
             ProcessStartInfo psi = new ProcessStartInfo(dotPath, $@"-Tdot ""{path}""")
             {
