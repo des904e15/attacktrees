@@ -1,0 +1,6 @@
+[submodule "DeadDog.PDF"]
+	path = DeadDog.PDF
+	url = https://github.com/deaddog/DeadDog.PDF.git
+[submodule "CommandLineParsing"]
+	path = CommandLineParsing
+	url = https://github.com/deaddog/CommandLineParsing.git
