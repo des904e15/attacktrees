@@ -25,7 +25,7 @@ namespace AttackTree
         }
         private static string GetValue(string node, string key)
         {
-            var m = Regex.Match(node, $@"[^\[]+\[[^\]]*({key})=(""([^""]+)""|[^""][^,\]]+)");
+            var m = Regex.Match(node, $@"[^\[]+\[[^\]]*({key})=(""([^""]+)""|[^""][^,\]]*)");
 
             var temp = m.Success ? m.Groups[2].Value : null;
 
