@@ -96,21 +96,4 @@ namespace AttackTree
             }
         }
     }
-
-    //public class And : PDFGroup
-    //{
-    //    private Arc left, right;
-
-    //    public And(RectangleF rect)
-    //        : base(true, rect)
-    //    {
-    //        this.left = new Arc()
-    //        this.right = right;
-    //    }
-
-    //    protected override IEnumerable<PDFObject> GetPDFObjects()
-    //    {
-    //        throw new NotImplementedException();
-    //    }
-    //}
 }
