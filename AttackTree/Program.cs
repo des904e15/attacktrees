@@ -92,7 +92,7 @@ namespace AttackTree
             if (msg.IsError)
             {
                 ColorConsole.WriteLine(msg.GetMessage());
-                System.Console.ReadKey(true);
+                //System.Console.ReadKey(true);
             }
         }
     }
