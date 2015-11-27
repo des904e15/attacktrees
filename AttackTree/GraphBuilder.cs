@@ -44,16 +44,14 @@ namespace AttackTree
             switch (node.NodeType)
             {
                 case Node.NodeTypes.AND:
-                    foreach (var o in addAND(new Vector4D(node.GateOffset, node.GateSize)))
-                        yield return o;
+                    yield return new AndGate(node.GateSize.Y) { Offset = node.GateOffset };
 
                     yield return new Line(new Vector2D(Vector1D.Zero, node.GateRect.Top - node.BoxRect.Bottom))
                     { Offset = new Vector2D(node.Center.X, node.BoxRect.Bottom) };
                     break;
 
                 case Node.NodeTypes.OR:
-                    foreach (var o in addOR(new Vector4D(node.GateOffset, node.GateSize)))
-                        yield return o;
+                    yield return new OrGate(node.GateSize.Y) { Offset = node.GateOffset };
 
                     yield return new Line(new Vector2D(Vector1D.Zero, node.GateRect.Top - node.BoxRect.Bottom))
                     { Offset = new Vector2D(node.Center.X, node.BoxRect.Bottom) };
@@ -82,81 +80,6 @@ namespace AttackTree
                 yield return new Line(new Vector2D(Vector1D.Zero, size.Y / 2)) { Offset = p1 };
             yield return new Line(new Vector2D(-size.X, Vector1D.Zero)) { Offset = p2 };
             yield return new Line(new Vector2D(Vector1D.Zero, size.Y / 2)) { Offset = p2 };
-        }
-
-        public static IEnumerable<PDFObject> addAND(Vector4D rect)
-        {
-            return addAND(rect, Color.Black, new Vector1D(2, UnitsOfMeasure.Points));
-        }
-        public static IEnumerable<PDFObject> addAND(Vector4D rect, Color color, Vector1D linewidth)
-        {
-            var arcsize = rect.Width / 2f;
-            if (arcsize > rect.Height)
-                arcsize = rect.Height;
-
-            yield return new Arc()
-            {
-                BorderColor = color,
-                BorderWidth = linewidth,
-                HasFill = false,
-                StartAngle = 90,
-                Extent = 90,
-                Offset = new Vector2D(rect.X, rect.Y),
-                Size = new Vector2D(arcsize * 2, arcsize * 2)
-            };
-            yield return new Arc()
-            {
-                BorderColor = color,
-                BorderWidth = linewidth,
-                HasFill = false,
-                StartAngle = 0,
-                Extent = 90,
-                Offset = new Vector2D(rect.Right - arcsize * 2, rect.Y),
-                Size = new Vector2D(arcsize * 2, arcsize * 2)
-            };
-
-            yield return new Line(new Vector2D(Vector1D.Zero, rect.Height - arcsize)) { BorderColor = color, BorderWidth = linewidth, Offset = new Vector2D(rect.X, rect.Y + arcsize) };
-            yield return new Line(new Vector2D(Vector1D.Zero, rect.Height - arcsize)) { BorderColor = color, BorderWidth = linewidth, Offset = new Vector2D(rect.Right, rect.Y + arcsize) };
-            yield return new Line(new Vector2D(rect.Width + linewidth, Vector1D.Zero)) { BorderColor = color, BorderWidth = linewidth, Offset = new Vector2D(rect.X - linewidth / 2, rect.Bottom) };
-        }
-        public static IEnumerable<PDFObject> addOR(Vector4D rect)
-        {
-            return addOR(rect, Color.Black, new Vector1D(2, UnitsOfMeasure.Points));
-        }
-        public static IEnumerable<PDFObject> addOR(Vector4D rect, Color color, Vector1D linewidth)
-        {
-            //yield return new Box(rect.Size) { BorderColor = color, Offset = rect.Offset, FillColor = Color.FromArgb(70, Color.DodgerBlue) };
-
-            var sin = Math.Sin(Math.PI / 4);
-            var cos = Math.Cos(Math.PI / 4);
-
-            var s = rect.Height + rect.Width / 2;
-
-            yield return new Arc()
-            {
-                BorderColor = color,
-                BorderWidth = linewidth,
-                HasFill = false,
-                StartAngle = 135,
-                Extent = 45,
-                Offset = new Vector2D(rect.X, rect.Bottom - s),
-                Size = new Vector2D(2 * s, 2 * s)
-            };
-
-            yield return new Arc()
-            {
-                BorderColor = color,
-                BorderWidth = linewidth,
-                HasFill = false,
-                StartAngle = 0,
-                Extent = 45,
-                Offset = new Vector2D(rect.Right - 2 * s, rect.Bottom - s),
-                Size = new Vector2D(2 * s, 2 * s)
-            };
-
-            //yield return new Line(new Vector2D(Vector1D.Zero, rect.Height - arcsize)) { BorderColor = color, BorderWidth = linewidth, Offset = new Vector2D(rect.X, rect.Y + arcsize) };
-            //yield return new Line(new Vector2D(Vector1D.Zero, rect.Height - arcsize)) { BorderColor = color, BorderWidth = linewidth, Offset = new Vector2D(rect.Right, rect.Y + arcsize) };
-            yield return new Line(new Vector2D(rect.Width + linewidth, Vector1D.Zero)) { BorderColor = color, BorderWidth = linewidth, Offset = new Vector2D(rect.X - linewidth / 2, rect.Bottom) };
         }
     }
 }
