@@ -16,7 +16,7 @@ namespace AttackTree
                 {
                     Validator<string> validator = new Validator<string>();
                     validator.Add(x => x != null && x != string.Empty, "That's not a filepath!");
-                    validator.Add(x => File.Exists(x), "That file doesn't exist!");
+                    validator.Add(x => File.Exists(x), x => "The file \"" + x + "\" doesn't exist!");
                     validator.Add(x => Path.GetExtension(x) == ".exe", "That's not an executable!");
                     validator.Add(x => Path.GetFileName(x) == "dot.exe", "That's not the dot.exe executable!");
 
