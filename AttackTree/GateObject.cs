@@ -10,6 +10,7 @@ namespace AttackTree
         public GateObject(Vector1D gateHeight)
             : base(Vector2D.Zero, new Vector2D(gateHeight, gateHeight))
         {
+            BorderWidth = new Vector1D(2, UnitsOfMeasure.Points);
         }
 
         protected sealed override void InnerBoundsChange(ref Vector1D offsetX, ref Vector1D offsetY, ref Vector1D width, ref Vector1D height)
