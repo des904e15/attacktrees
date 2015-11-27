@@ -44,10 +44,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AndGate.cs" />
     <Compile Include="GateObject.cs" />
     <Compile Include="GraphBuilder.cs" />
     <Compile Include="Link.cs" />
     <Compile Include="Node.cs" />
+    <Compile Include="OrGate.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
