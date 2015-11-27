@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GateObject.cs" />
     <Compile Include="GraphBuilder.cs" />
     <Compile Include="Link.cs" />
     <Compile Include="Node.cs" />
