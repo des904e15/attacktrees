@@ -40,7 +40,7 @@ namespace AttackTree
             this.config = new Configuration(configPath);
 
             file.Validator.Add(x => x.Length > 0, "A .dot file must be specified.");
-            file.Validator.Add(x => x.Length == 1, "Only one .dot file can be specified.");
+            //file.Validator.Add(x => x.Length == 1, "Only one .dot file can be specified.");
             file.Validator.AddForeach(FileExists);
         }
 
@@ -76,10 +76,13 @@ namespace AttackTree
 
         protected override void Execute()
         {
-            string filepath = Path.Combine(Directory.GetCurrentDirectory(), file.Value[0]);
-            string pdfpath = Path.ChangeExtension(filepath, ".pdf");
+            foreach (var p in file.Value)
+            {
+                string filepath = Path.Combine(Directory.GetCurrentDirectory(), p);
+                string pdfpath = Path.ChangeExtension(filepath, ".pdf");
 
-            GraphBuilder.Build(GenerateDot(filepath), pdfpath, open.IsSet);
+                GraphBuilder.Build(GenerateDot(filepath), pdfpath, open.IsSet);
+            }
         }
 
         static void Main(string[] args)
