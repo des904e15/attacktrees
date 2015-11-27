@@ -17,7 +17,7 @@ namespace AttackTree
             Unknown
         }
 
-        private static readonly Vector1D levelspacer = new Vector1D(2, UnitsOfMeasure.Centimeters);
+        private static readonly Vector1D levelspacer = new Vector1D(1.5, UnitsOfMeasure.Centimeters);
 
         private static string GetName(string node)
         {
