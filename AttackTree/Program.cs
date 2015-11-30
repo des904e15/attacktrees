@@ -1,6 +1,7 @@
 ﻿using CommandLineParsing;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 
 namespace AttackTree
 {
@@ -39,7 +40,7 @@ namespace AttackTree
             var configPath = Path.Combine(dir, "config");
             this.config = new Configuration(configPath);
 
-            file.Validator.Add(x => x.Length > 0, "A .dot file must be specified.");
+            //file.Validator.Add(x => x.Length > 0, "A .dot file must be specified.");
             //file.Validator.Add(x => x.Length == 1, "Only one .dot file can be specified.");
             file.Validator.AddForeach(FileExists);
         }
@@ -76,6 +77,12 @@ namespace AttackTree
 
         protected override void Execute()
         {
+            if (file.Value.Length == 0)
+            {
+                var files = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.dot").Where(x => x.EndsWith(".dot")).Select(x => Path.GetFileName(x)).ToArray();
+                file.Value = files;
+            }
+
             foreach (var p in file.Value)
             {
                 string filepath = Path.Combine(Directory.GetCurrentDirectory(), p);
