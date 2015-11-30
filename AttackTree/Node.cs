@@ -72,7 +72,7 @@ namespace AttackTree
             var regex = new Regex(@"(?<!->)[ \t]([a-zA-Z0-9_]+[ \t]*\[[^\]]+\])");
 
             var nodes = (from m in regex.Matches(dot).OfType<Match>()
-                        select m.Groups[1].Value).ToArray();
+                         select m.Groups[1].Value).ToArray();
             var graph = nodes.First(x => GetName(x) == "graph");
             nodes = (from n in nodes
                      let name = GetName(n)
@@ -119,7 +119,7 @@ namespace AttackTree
 
         public static Vector1D Margin => new Vector1D(0.2, UnitsOfMeasure.Centimeters);
 
-        private static Vector1D gateHeight = new Vector1D(0.5, UnitsOfMeasure.Inches);
+        public static readonly Vector1D GateHeight = new Vector1D(0.5, UnitsOfMeasure.Inches);
         private static Vector2D boxMargin => new Vector2D(Margin, Margin);
 
         public Vector4D TextRect => new Vector4D(TextOffset, TextSize);
@@ -132,7 +132,7 @@ namespace AttackTree
 
         public Vector4D GateRect => new Vector4D(GateOffset, GateSize);
         public Vector2D GateOffset => center + new Vector2D(-GateSize.X / 2, BoxSize.Y - size.Y / 2 + Margin);
-        public Vector2D GateSize => new Vector2D(0.8 * gateHeight, gateHeight);
+        public Vector2D GateSize => new Vector2D(0.8 * GateHeight, GateHeight);
 
         private static FontInfo font = new FontInfo("Calibri", 12);
         public static FontInfo Font => font;
